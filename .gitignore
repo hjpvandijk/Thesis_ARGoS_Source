@@ -1,4 +1,5 @@
 /build*
+src/cmake-build-debug
 install
 doc/api
 .emacs.desktop*
@@ -20,3 +21,4 @@ slack-desc
 TAGS
 .dir-locals.el
 .vscode*
+.idea*

@@ -59,14 +59,21 @@ namespace argos {
          m_pcSimpleRadioEquippedEntity = new CSimpleRadioEquippedEntity(this, "simple_radios_0");
          std::string strWifiMedium;
          GetNodeAttributeOrDefault(t_tree, "wifi_medium", strWifiMedium, strWifiMedium);
-         if(!strWifiMedium.empty()) {
+         std::string strWifiRange;
+         GetNodeAttributeOrDefault(t_tree, "wifi_range", strWifiRange, strWifiRange);
+         Real fWifiRange = WIFI_TRANSMISSION_RANGE;
+         if(!strWifiRange.empty()) {
+//             THROW_ARGOSEXCEPTION("WIFI RANGE EMPTY");
+            fWifiRange = std::stof(strWifiRange);
+         }
+          if(!strWifiMedium.empty()) {
             CSimpleRadioMedium& cWifiRadioMedium =
                CSimulator::GetInstance().GetMedium<CSimpleRadioMedium>(strWifiMedium);
             m_pcSimpleRadioEquippedEntity->AddRadio("wifi",
                                                     WIFI_OFFSET_POSITION,
                                                     m_pcEmbodiedEntity->GetOriginAnchor(),
                                                     cWifiRadioMedium,
-                                                    WIFI_TRANSMISSION_RANGE);
+                                                    fWifiRange);
             m_pcSimpleRadioEquippedEntity->Enable();
          }
          AddComponent(*m_pcSimpleRadioEquippedEntity);
