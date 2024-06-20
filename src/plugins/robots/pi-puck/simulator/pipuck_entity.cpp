@@ -63,7 +63,6 @@ namespace argos {
          GetNodeAttributeOrDefault(t_tree, "wifi_range", strWifiRange, strWifiRange);
          Real fWifiRange = WIFI_TRANSMISSION_RANGE;
          if(!strWifiRange.empty()) {
-//             THROW_ARGOSEXCEPTION("WIFI RANGE EMPTY");
             fWifiRange = std::stof(strWifiRange);
          }
           if(!strWifiMedium.empty()) {
