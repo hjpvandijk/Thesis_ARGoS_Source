@@ -21,7 +21,8 @@ namespace argos {
       m_pcEmbodiedEntity(nullptr),
       m_pcLEDEquippedEntity(nullptr),
       m_fMass(1.0f),
-      m_pcLEDMedium(nullptr) {
+      m_pcLEDMedium(nullptr),
+      m_fTemperature(0.0f) {
    }
 
    /****************************************/
@@ -33,7 +34,8 @@ namespace argos {
                                     bool b_movable,
                                     Real f_radius,
                                     Real f_height,
-                                    Real f_mass) :
+                                    Real f_mass,
+                                    Real f_temperature) :
       CComposableEntity(nullptr, str_id),
       m_pcEmbodiedEntity(
          new CEmbodiedEntity(this,
@@ -45,7 +47,8 @@ namespace argos {
          new CLEDEquippedEntity(this, "leds_0")),
       m_fRadius(f_radius),
       m_fHeight(f_height),
-      m_fMass(f_mass) {
+      m_fMass(f_mass),
+      m_fTemperature(f_temperature){
       AddComponent(*m_pcEmbodiedEntity);
       AddComponent(*m_pcLEDEquippedEntity);
    }
@@ -71,6 +74,7 @@ namespace argos {
          else {
             m_fMass = 0.0f;
          }
+         GetNodeAttribute(t_tree, "temperature", m_fTemperature);
          /* Create embodied entity using parsed data */
          m_pcEmbodiedEntity = new CEmbodiedEntity(this);
          AddComponent(*m_pcEmbodiedEntity);

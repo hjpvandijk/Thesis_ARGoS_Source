@@ -10,7 +10,8 @@ set(ARGOS3_HEADERS_PLUGINS_ROBOTS_PIPUCK_CONTROLINTERFACE
   control_interface/ci_pipuck_imu_sensor.h
   control_interface/ci_pipuck_leds_actuator.h
   control_interface/ci_pipuck_system_sensor.h
-  control_interface/ci_pipuck_rangefinders_sensor.h)
+  control_interface/ci_pipuck_rangefinders_sensor.h
+  control_interface/ci_pipuck_ir_temperature_sensor.h)
 if(ARGOS_BUILD_FOR_SIMULATOR)
   # argos3/plugins/robots/pi-puck/simulator
   set(ARGOS3_HEADERS_PLUGINS_ROBOTS_PIPUCK_SIMULATOR
@@ -25,7 +26,8 @@ if(ARGOS_BUILD_FOR_SIMULATOR)
     simulator/pipuck_imu_default_sensor.h
     simulator/pipuck_leds_default_actuator.h
     simulator/pipuck_system_default_sensor.h
-    simulator/pipuck_rangefinders_default_sensor.h)
+    simulator/pipuck_rangefinders_default_sensor.h
+    simulator/pipuck_ir_temperature_default_sensor.h)
   if(ARGOS_QTOPENGL_FOUND)
     include_directories(${ARGOS_QTOPENGL_INCLUDE_DIRS})
     set(ARGOS3_HEADERS_PLUGINS_ROBOTS_PIPUCK_SIMULATOR
@@ -47,7 +49,8 @@ set(ARGOS3_SOURCES_PLUGINS_ROBOTS_PIPUCK
   control_interface/ci_pipuck_imu_sensor.cpp
   control_interface/ci_pipuck_leds_actuator.cpp  
   control_interface/ci_pipuck_system_sensor.cpp
-  control_interface/ci_pipuck_rangefinders_sensor.cpp)
+  control_interface/ci_pipuck_rangefinders_sensor.cpp
+  control_interface/ci_pipuck_ir_temperature_sensor.cpp)
 if(ARGOS_BUILD_FOR_SIMULATOR)
   # argos3/plugins/robots/pi-puck/simulator
   set(ARGOS3_SOURCES_PLUGINS_ROBOTS_PIPUCK
@@ -64,7 +67,8 @@ if(ARGOS_BUILD_FOR_SIMULATOR)
     simulator/pipuck_imu_default_sensor.cpp
     simulator/pipuck_leds_default_actuator.cpp
     simulator/pipuck_system_default_sensor.cpp
-    simulator/pipuck_rangefinders_default_sensor.cpp)
+    simulator/pipuck_rangefinders_default_sensor.cpp
+    simulator/pipuck_ir_temperature_default_sensor.cpp)
   if(ARGOS_QTOPENGL_FOUND)
     set(ARGOS3_SOURCES_PLUGINS_ROBOTS_PIPUCK
       ${ARGOS3_SOURCES_PLUGINS_ROBOTS_PIPUCK}

@@ -34,7 +34,8 @@ namespace argos {
                       bool b_movable,
                       Real f_radius,
                       Real f_height,
-                      Real f_mass = 1.0f);
+                      Real f_mass = 1.0f,
+                      Real f_temperature = 0.0f);
 
       virtual void Init(TConfigurationNode& t_tree);
       virtual void Reset();
@@ -91,7 +92,14 @@ namespace argos {
          m_fMass = f_mass;
       }
 
+      inline Real GetTemperature() const {
+          return m_fTemperature;
+      }
+
       virtual std::string GetTypeDescription() const {
+          if(m_fTemperature == 37.0f) {
+              return "person";
+          }
          return "cylinder";
       }
 
@@ -103,6 +111,7 @@ namespace argos {
       Real                m_fHeight;
       Real                m_fMass;
       CLEDMedium*         m_pcLEDMedium;
+      Real                m_fTemperature;
 
    };
 

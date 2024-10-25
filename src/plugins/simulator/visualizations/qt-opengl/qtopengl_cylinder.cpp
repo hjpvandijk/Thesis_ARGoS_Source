@@ -28,6 +28,7 @@ namespace argos {
    CQTOpenGLCylinder::CQTOpenGLCylinder() :
       m_unVertices(20) {
 
+
       /* Reserve the needed display lists */
       m_unBaseList = glGenLists(1);
       m_unBodyList = m_unBaseList;
@@ -90,7 +91,12 @@ namespace argos {
          glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, MOVABLE_COLOR);
       }
       else {
-         glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, NONMOVABLE_COLOR);
+          if (c_entity.GetTypeDescription() == "person"){
+              const GLfloat NONMOVABLE_COLOR_PERSON[] = { 1.0f, 0.6f, 0.6f, 1.0f };
+              glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, NONMOVABLE_COLOR_PERSON);
+          } else {
+              glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, NONMOVABLE_COLOR);
+          }
       }
       glPushMatrix();
       glScaled(c_entity.GetRadius(), c_entity.GetRadius(), c_entity.GetHeight());
