@@ -74,6 +74,11 @@ if(ARGOS_BUILD_FOR_SIMULATOR)
     simulator/pipuck_ir_temperature_default_sensor.cpp
     simulator/pipuck_battery_default_sensor.cpp
     simulator/pipuck_battery_equipped_entity.cpp)
+  if(ARGOS_QTOPENGL_FOUND)
+    set(ARGOS3_SOURCES_PLUGINS_ROBOTS_PIPUCK
+      ${ARGOS3_SOURCES_PLUGINS_ROBOTS_PIPUCK}
+      simulator/qtopengl_pipuck.cpp)
+  endif(ARGOS_QTOPENGL_FOUND)
 endif(ARGOS_BUILD_FOR_SIMULATOR)
 
 #
