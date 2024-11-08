@@ -15,6 +15,7 @@
 #include <argos3/plugins/simulator/entities/simple_radio_equipped_entity.h>
 #include <argos3/plugins/simulator/media/directional_led_medium.h>
 #include <argos3/plugins/simulator/media/simple_radio_medium.h>
+#include "pipuck_battery_equipped_entity.h"
 
 #include <argos3/plugins/robots/pi-puck/simulator/pipuck_differential_drive_entity.h>
 
@@ -147,6 +148,15 @@ namespace argos {
             m_pcDirectionalLEDEquippedEntity->Enable();
          }
          AddComponent(*m_pcDirectionalLEDEquippedEntity);
+
+         auto batteryNode = GetNode(t_tree, "pipuck_battery");
+          std::string str_bat_model;
+          GetNodeAttributeOrDefault(batteryNode, "discharge_model", str_bat_model, str_bat_model);
+          double f_start_charge;
+          GetNodeAttributeOrDefault(batteryNode, "start_charge", f_start_charge, f_start_charge);
+         /* Battery equipped entity */
+          m_pcBatteryEquippedEntity = new CPiPuckBatteryEquippedEntity(this, "battery_0", str_bat_model, f_start_charge);
+          AddComponent(*m_pcBatteryEquippedEntity);
          /* Create and initialize the controllable entity */
          m_pcControllableEntity = new CControllableEntity(this);
          AddComponent(*m_pcControllableEntity);
