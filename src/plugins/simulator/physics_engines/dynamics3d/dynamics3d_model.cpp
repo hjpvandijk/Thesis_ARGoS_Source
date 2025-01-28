@@ -142,6 +142,43 @@ namespace argos {
       return false;
    }
 
+    void * CDynamics3DModel::IsCollidingWithWhat() const {
+        /* Rerun collision detection */
+        m_cEngine.GetWorld().performDiscreteCollisionDetection();
+        /* Get the collision dispatcher */
+        const btCollisionDispatcher& cDispatcher =
+                m_cEngine.GetDispatcher();
+        /* For each manifold from the collision dispatcher */
+        for(SInt32 i = 0; i < cDispatcher.getNumManifolds(); i++) {
+            const btPersistentManifold* pcContactManifold =
+                    cDispatcher.getManifoldByIndexInternal(i);
+            const auto* pcModelA =
+                    static_cast<const CDynamics3DModel*>(pcContactManifold->getBody0()->getUserPointer());
+            const auto* pcModelB =
+                    static_cast<const CDynamics3DModel*>(pcContactManifold->getBody1()->getUserPointer());
+            /* Ignore self-collisions */
+            if(pcModelA == pcModelB) {
+                continue;
+            }
+            /* Ignore collisions that don't belong to a model (e.g. a collision with the ground) */
+            if((pcModelA == nullptr) || (pcModelB == nullptr)) {
+                continue;
+            }
+            /* Only check collisions that involve this model */
+            if((pcModelA == this) || (pcModelB == this)) {
+                /* One of the two bodies involved in the contact manifold belongs to this model,
+                   check for contact points with negative distance to indicate a collision */
+                for(SInt32 j = 0; j < pcContactManifold->getNumContacts(); j++) {
+                    const btManifoldPoint& cManifoldPoint = pcContactManifold->getContactPoint(j);
+                    if (cManifoldPoint.getDistance() < 0.0f) {
+                        return (void *) (pcModelA == this ? pcModelB : pcModelA);
+                    }
+                }
+            }
+        }
+        return nullptr;
+    }
+
    /****************************************/
    /****************************************/
 

@@ -107,6 +107,7 @@ namespace argos {
       virtual void UpdateFromEntityStatus()  = 0;
 
       virtual bool IsCollidingWithSomething() const;
+      virtual void *  IsCollidingWithWhat() const;
 
       /**
        * Sets the body and registers the default origin anchor method.

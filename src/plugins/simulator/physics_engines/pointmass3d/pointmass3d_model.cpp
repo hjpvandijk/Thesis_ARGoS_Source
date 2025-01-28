@@ -50,6 +50,16 @@ namespace argos {
       return false;
    }
 
+    void * CPointMass3DModel::IsCollidingWithWhat() const {
+        /* Go through other objects and check if the BB intersect */
+        for(auto it = GetPM3DEngine().GetPhysicsModels().begin();
+            it != GetPM3DEngine().GetPhysicsModels().end(); ++it) {
+            if((it->second != this) &&
+               GetBoundingBox().Intersects(it->second->GetBoundingBox()))
+                return it->second;
+        }
+        return nullptr;
+    }
    /****************************************/
    /****************************************/
 

@@ -233,6 +233,7 @@ namespace argos {
        * @return <tt>true</tt> if this model is colliding with another model.
        */
       virtual bool IsCollidingWithSomething() const = 0;
+      virtual void * IsCollidingWithWhat() const = 0;
 
       /**
        * Returns an axis-aligned box that contains the physics model.

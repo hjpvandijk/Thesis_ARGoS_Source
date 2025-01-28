@@ -303,6 +303,7 @@ namespace argos {
        * @return <tt>true</tt> if this entity is colliding with another object.
        */
       virtual bool IsCollidingWithSomething() const;
+      virtual void * IsCollidingWithWhat() const;
 
       virtual std::string GetTypeDescription() const {
          return "body";

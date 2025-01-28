@@ -127,22 +127,46 @@ namespace argos {
    /****************************************/
    /****************************************/
 
-   bool CDynamics2DMultiBodyObjectModel::IsCollidingWithSomething() const {
+
+   cpSpatialIndexQueryFunc getCollisionObjectType2(void *obj1, void *obj2, void *data){
+       std::string typeDescription = static_cast<CDynamics2DMultiBodyObjectModel*>((static_cast<cpShape*>(obj1))->body->data)->GetComposableEntity().GetTypeDescription();
+       *static_cast<std::string*>(data) = typeDescription;
+       return nullptr;
+   }
+
+    bool CDynamics2DMultiBodyObjectModel::IsCollidingWithSomething() const {
       if(m_vecBodies.empty()) return false;
       for(size_t i = 0; i < m_vecBodies.size(); ++i) {
          for(cpShape* pt_shape = m_vecBodies[i].Body->shapeList;
              pt_shape != nullptr;
              pt_shape = pt_shape->next) {
-            if(cpSpaceShapeQuery(
+             if(cpSpaceShapeQuery(
                   const_cast<CDynamics2DMultiBodyObjectModel*>(this)->
                   GetDynamics2DEngine().GetPhysicsSpace(),
                   pt_shape, nullptr, nullptr) > 0) {
-               return true;
+                 return true;
             }
          }
       }
       return false;
    }
+   void * CDynamics2DMultiBodyObjectModel::IsCollidingWithWhat() const {
+        if(m_vecBodies.empty()) return nullptr;
+        for(size_t i = 0; i < m_vecBodies.size(); ++i) {
+            for(cpShape* pt_shape = m_vecBodies[i].Body->shapeList;
+                pt_shape != nullptr;
+                pt_shape = pt_shape->next) {
+                void* data = static_cast<void*>(new std::string());
+                if(cpSpaceShapeQuery(
+                        const_cast<CDynamics2DMultiBodyObjectModel*>(this)->
+                                GetDynamics2DEngine().GetPhysicsSpace(),
+                        pt_shape, reinterpret_cast<cpSpaceShapeQueryFunc>(getCollisionObjectType2), &data) > 0) {
+                    return data;
+                }
+            }
+        }
+        return nullptr;
+    }
 
    /****************************************/
    /****************************************/

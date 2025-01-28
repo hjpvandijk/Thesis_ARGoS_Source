@@ -226,7 +226,6 @@ shapeQueryHelper(cpShape *a, cpShape *b, shapeQueryContext *context)
 				set.points[i].normal = contacts[i].n;
 				set.points[i].dist = contacts[i].dist;
 			}
-			
 			context->func(b, &set, context->data);
 		}
 	}
@@ -243,6 +242,6 @@ cpSpaceShapeQuery(cpSpace *space, cpShape *shape, cpSpaceShapeQueryFunc func, vo
     cpSpatialIndexQuery(space->activeShapes, shape, bb, (cpSpatialIndexQueryFunc)shapeQueryHelper, &context);
     cpSpatialIndexQuery(space->staticShapes, shape, bb, (cpSpatialIndexQueryFunc)shapeQueryHelper, &context);
 	} cpSpaceUnlock(space, cpTrue);
-	
+
 	return context.anyCollision;
 }

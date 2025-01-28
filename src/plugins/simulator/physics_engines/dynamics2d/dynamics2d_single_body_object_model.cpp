@@ -112,18 +112,42 @@ namespace argos {
    /****************************************/
    /****************************************/
 
+   cpSpatialIndexQueryFunc getCollisionObjectType(void *obj1, void *obj2, void *data){
+       std::string typeDescription = static_cast<CDynamics2DSingleBodyObjectModel*>((static_cast<cpShape*>(obj1))->body->data)->GetComposableEntity().GetTypeDescription();
+
+        *static_cast<std::string*>(data) = typeDescription;
+       return nullptr;
+   }
+
    bool CDynamics2DSingleBodyObjectModel::IsCollidingWithSomething() const {
       for(cpShape* pt_shape = m_ptBody->shapeList;
           pt_shape != nullptr;
           pt_shape = pt_shape->next) {
-         if(cpSpaceShapeQuery(
-               const_cast<CDynamics2DSingleBodyObjectModel*>(this)->
+          if(cpSpaceShapeQuery(
+                  const_cast<CDynamics2DSingleBodyObjectModel*>(this)->
                GetDynamics2DEngine().GetPhysicsSpace(),
-               pt_shape, nullptr, nullptr) > 0) {
+                  pt_shape, nullptr, nullptr) > 0) {
             return true;
          }
       }
       return false;
+   }
+
+   void * CDynamics2DSingleBodyObjectModel::IsCollidingWithWhat() const {
+      for(cpShape* pt_shape = m_ptBody->shapeList;
+          pt_shape != nullptr;
+          pt_shape = pt_shape->next) {
+          //Create data
+          void* data = static_cast<void*>(new std::string());
+
+          if(cpSpaceShapeQuery(
+                  const_cast<CDynamics2DSingleBodyObjectModel*>(this)->
+               GetDynamics2DEngine().GetPhysicsSpace(),
+                  pt_shape, reinterpret_cast<cpSpaceShapeQueryFunc>(getCollisionObjectType), data) > 0) {
+            return data;
+         }
+      }
+      return nullptr;
    }
 
    /****************************************/

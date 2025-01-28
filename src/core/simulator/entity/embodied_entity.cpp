@@ -443,6 +443,37 @@ namespace argos {
       }
    }
 
+   void* CEmbodiedEntity::IsCollidingWithWhat() const {
+      /* If no model is associated, you can't call this function */
+      if(m_tPhysicsModelVector.empty()) {
+         THROW_ARGOSEXCEPTION("CEmbodiedEntity::IsCollidingWithSomething() called on entity \"" <<
+                              GetContext() << GetId() <<
+                              "\", but this entity has not been added to any physics engine.");
+      }
+      /* Special case: if there is only one model, check that directly */
+       std::vector<void*> vecCollisions;
+       if(m_tPhysicsModelVector.size() == 1) {
+         vecCollisions.emplace_back(m_tPhysicsModelVector[0]->IsCollidingWithWhat());
+         return static_cast<void*>(new std::vector<void*>(vecCollisions));
+
+       }
+      /* Multiple associations, go through them */
+      else {
+         /* Return true at the first detected collision */
+         for(size_t i = 0; i < m_tPhysicsModelVector.size(); ++i) {
+            if(m_tPhysicsModelVector[i]->IsCollidingWithSomething()) {
+               vecCollisions.emplace_back(m_tPhysicsModelVector[i]->IsCollidingWithWhat());
+            }
+         }
+         if (!vecCollisions.empty()) {
+            //Convert vecCollisions to a void * and return it
+            return static_cast<void*>(new std::vector<void*>(vecCollisions));
+         }
+         /* If you get here it's because there are collisions */
+         return nullptr;
+      }
+   }
+
    /****************************************/
    /****************************************/
 

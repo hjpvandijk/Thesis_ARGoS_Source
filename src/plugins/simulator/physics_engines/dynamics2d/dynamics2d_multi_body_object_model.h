@@ -119,6 +119,7 @@ namespace argos {
       virtual void UpdateFromEntityStatus()  = 0;
 
       virtual bool IsCollidingWithSomething() const;
+      virtual void *  IsCollidingWithWhat() const;
 
       /**
        * Adds a body.
