@@ -453,8 +453,12 @@ namespace argos {
       /* Special case: if there is only one model, check that directly */
        std::vector<void*> vecCollisions;
        if(m_tPhysicsModelVector.size() == 1) {
-         vecCollisions.emplace_back(m_tPhysicsModelVector[0]->IsCollidingWithWhat());
-         return static_cast<void*>(new std::vector<void*>(vecCollisions));
+           if (m_tPhysicsModelVector[0]->IsCollidingWithSomething()) {
+               vecCollisions.emplace_back(m_tPhysicsModelVector[0]->IsCollidingWithWhat());
+               return static_cast<void *>(new std::vector<void *>(vecCollisions));
+           } else {
+               return nullptr;
+           }
 
        }
       /* Multiple associations, go through them */
