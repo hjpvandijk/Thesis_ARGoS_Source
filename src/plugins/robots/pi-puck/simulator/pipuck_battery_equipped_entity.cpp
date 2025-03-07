@@ -306,9 +306,13 @@ namespace argos {
          }
          Real fDeltaT = CSimulator::GetInstance().GetPhysicsEngines()[0]->GetSimulationClockTick();
          Real fSpeed = std::round(std::max(0.0, std::min(0.150, fDeltaPos / fDeltaT)) * 10000.0) / 100.0; // cm/s
-         Real fBat = m_pcBattery->GetAvailableCharge();
+         auto ratio = fSpeed ==0 ?  0 : ((fDeltaPos / fDeltaT)*100 /fSpeed);
+         argos::LOG << "fDeltaPos / fDeltaT: " << fDeltaPos / fDeltaT << std::endl;
+         argos::LOG << "speed: " << fSpeed << std::endl;
+         argos::LOG << "ratio: " << ratio << std::endl;
+          Real fBat = m_pcBattery->GetAvailableCharge();
 
-         int spdL = std::max(0.0, floor(fSpeed));
+          int spdL = std::max(0.0, floor(fSpeed));
          int spdH = std::min(15.0, ceil(fSpeed));
 
          // First interpolation point: LOW
@@ -331,7 +335,7 @@ namespace argos {
          Real y1 = m1 * (x1 + fDeltaT) + h1;
 
          if (spdL == spdH) {
-            m_pcBattery->SetAvailableCharge(Max<Real>(0.0, y1));
+            m_pcBattery->SetAvailableCharge(m_pcBattery->GetAvailableCharge() - (m_pcBattery->GetAvailableCharge() - Max<Real>(0.0, y1))*ratio);
          } else {
             // Second interpolation point: RIGHT
             Real m2, h2;
@@ -354,9 +358,9 @@ namespace argos {
 
             Real d = (fSpeed - spdL) / (spdH - spdL);
             if (y1 < y2) {
-               m_pcBattery->SetAvailableCharge(Max<Real>(0.0, y1 + (y2 - y1) * d));
+               m_pcBattery->SetAvailableCharge(m_pcBattery->GetAvailableCharge() - (m_pcBattery->GetAvailableCharge() - Max<Real>(0.0, y1 + (y2 - y1) * d))*ratio);
             } else {
-               m_pcBattery->SetAvailableCharge(Max<Real>(0.0, y2 + (y1 - y2) * d));
+               m_pcBattery->SetAvailableCharge(m_pcBattery->GetAvailableCharge() - (m_pcBattery->GetAvailableCharge() - Max<Real>(0.0, y2 + (y1 - y2) * d))*ratio);
             }
          }
          /* Save position for next step */

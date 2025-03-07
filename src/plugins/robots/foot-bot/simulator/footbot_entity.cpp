@@ -15,6 +15,7 @@
 #include <argos3/plugins/simulator/entities/gripper_equipped_entity.h>
 #include <argos3/plugins/simulator/entities/ground_sensor_equipped_entity.h>
 #include <argos3/plugins/simulator/entities/led_equipped_entity.h>
+#include <argos3/plugins/simulator/entities/lidar_sensor_equipped_entity.h>
 #include <argos3/plugins/simulator/entities/light_sensor_equipped_entity.h>
 #include <argos3/plugins/simulator/entities/omnidirectional_camera_equipped_entity.h>
 #include <argos3/plugins/simulator/entities/perspective_camera_equipped_entity.h>
@@ -35,6 +36,11 @@ namespace argos {
    static const Real INTERWHEEL_DISTANCE        = 0.14f;
    static const Real HALF_INTERWHEEL_DISTANCE   = INTERWHEEL_DISTANCE * 0.5f;
    static const Real WHEEL_RADIUS               = 0.029112741f;
+
+    static const Real LIDAR_SENSOR_RING_ELEVATION       = 0.06f;
+    static const Real LIDAR_SENSOR_RING_RADIUS          = BODY_RADIUS;
+    static const CRadians LIDAR_SENSOR_RING_START_ANGLE = CRadians((ARGOS_PI / 12.0f) * 0.5f);
+    static const Real LIDAR_SENSOR_RING_RANGE           = 4.0f;
 
    static const Real PROXIMITY_SENSOR_RING_ELEVATION       = 0.06f;
    static const Real PROXIMITY_SENSOR_RING_RADIUS          = BODY_RADIUS;
@@ -64,6 +70,7 @@ namespace argos {
       m_pcGripperEquippedEntity(nullptr),
       m_pcGroundSensorEquippedEntity(nullptr),
       m_pcLEDEquippedEntity(nullptr),
+      m_pcLidarSensorEquippedEntity(NULL),
       m_pcLightSensorEquippedEntity(nullptr),
       m_pcOmnidirectionalCameraEquippedEntity(nullptr),
       m_pcPerspectiveCameraEquippedEntity(nullptr),
@@ -136,6 +143,17 @@ namespace argos {
          m_pcLEDEquippedEntity->AddLED(
             CVector3(0.0f, 0.0f, BEACON_ELEVATION),
             cTurretAnchor);
+          /* Lidar sensor equipped entity */
+          m_pcLidarSensorEquippedEntity =
+                  new CLidarSensorEquippedEntity(this, "lidar_0");
+          AddComponent(*m_pcLidarSensorEquippedEntity);
+          m_pcLidarSensorEquippedEntity->AddSensorRing(
+                  CVector3(0.0f, 0.0f, LIDAR_SENSOR_RING_ELEVATION),
+                  LIDAR_SENSOR_RING_RADIUS,
+                  LIDAR_SENSOR_RING_START_ANGLE,
+                  LIDAR_SENSOR_RING_RANGE,
+                  512,
+                  m_pcEmbodiedEntity->GetOriginAnchor());
          /* Proximity sensor equipped entity */
          m_pcProximitySensorEquippedEntity =
             new CProximitySensorEquippedEntity(this, "proximity_0");
@@ -305,6 +323,17 @@ namespace argos {
             PROXIMITY_SENSOR_RING_RANGE,
             24,
             m_pcEmbodiedEntity->GetOriginAnchor());
+          /* Lidar sensor equipped entity */
+          m_pcLidarSensorEquippedEntity =
+                  new CLidarSensorEquippedEntity(this, "lidar_0");
+          AddComponent(*m_pcLidarSensorEquippedEntity);
+          m_pcLidarSensorEquippedEntity->AddSensorRing(
+                  CVector3(0.0f, 0.0f, LIDAR_SENSOR_RING_ELEVATION),
+                  LIDAR_SENSOR_RING_RADIUS,
+                  LIDAR_SENSOR_RING_START_ANGLE,
+                  LIDAR_SENSOR_RING_RANGE,
+                  512,
+                  m_pcEmbodiedEntity->GetOriginAnchor());
          /* Light sensor equipped entity */
          m_pcLightSensorEquippedEntity =
             new CLightSensorEquippedEntity(this, "light_0");
