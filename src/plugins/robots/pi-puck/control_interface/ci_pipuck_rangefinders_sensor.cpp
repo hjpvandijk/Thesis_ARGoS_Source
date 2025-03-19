@@ -67,10 +67,10 @@ namespace argos {
 //      std::make_pair(5, std::make_tuple("origin", CVector3( 0.0000, 0.0350, 0.0333), CQuaternion(-0.5 * CRadians::PI, CVector3(1.0,0,0)), 0.1)),
 //      std::make_pair(6, std::make_tuple("origin", CVector3( 0.0234, 0.0264, 0.0333), CQuaternion(-0.5 * CRadians::PI, CVector3(0.730,-0.683,0)), 0.1)),
 //      std::make_pair(7, std::make_tuple("origin", CVector3( 0.0333, 0.0096, 0.0333), CQuaternion(-0.5 * CRadians::PI, CVector3(0.218,-0.976,0)), 0.1)),
-       std::make_pair(0, std::make_tuple("origin", CVector3( 0.0,0.0000, 0.0333), CQuaternion( 0.5 * CRadians::PI, CVector3(0, 1.0,0)), 2)), //Forward
-       std::make_pair(1, std::make_tuple("origin", CVector3( 0.000, 0.0, 0.0333), CQuaternion(0.5 * CRadians::PI, CVector3(1.0,0.0,0)), 2)), //Right
-       std::make_pair(2, std::make_tuple("origin", CVector3( 0.0,0.0000, 0.0333), CQuaternion( 0.5 * CRadians::PI, CVector3(0, -1.0,0)), 2)), //Back
-       std::make_pair(3, std::make_tuple("origin", CVector3( 0.0, 0.0, 0.0333), CQuaternion(0.5 * CRadians::PI, CVector3(-1.0,0.0,0)), 2)), //Left
+       std::make_pair(0, std::make_tuple("origin", CVector3( 0.0,0.0000, 0.0333), CQuaternion( 0.5 * CRadians::PI, CVector3(0, 1.0,0)), 2.5)), //Forward
+       std::make_pair(1, std::make_tuple("origin", CVector3( 0.000, 0.0, 0.0333), CQuaternion(0.5 * CRadians::PI, CVector3(1.0,0.0,0)), 2.5)), //Right
+       std::make_pair(2, std::make_tuple("origin", CVector3( 0.0,0.0000, 0.0333), CQuaternion( 0.5 * CRadians::PI, CVector3(0, -1.0,0)), 2.5)), //Back
+       std::make_pair(3, std::make_tuple("origin", CVector3( 0.0, 0.0, 0.0333), CQuaternion(0.5 * CRadians::PI, CVector3(-1.0,0.0,0)), 2.5)), //Left
 
    };
 
